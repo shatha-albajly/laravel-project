@@ -31,7 +31,7 @@ class AuthController extends Controller
 
         ]);
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_active' => 1])) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
 
 
             if (Auth::user()->hasRole('admin'))
@@ -50,6 +50,16 @@ class AuthController extends Controller
             return redirect()->route($this->checkRole());
         else
             return view('templates.login');
+    }
+
+
+    // check role
+    public function checkRole()
+    {
+        if (Auth::user()->hasRole('admin'))
+            return 'dashboard';
+        else
+            return 'home';
     }
 
 
